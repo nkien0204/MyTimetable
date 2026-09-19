@@ -10,6 +10,24 @@
     "error_email_empty": "Bé ơi, đừng quên nhập email nhé! 📧",
     "error_email_invalid": "Email này hình như không đúng rồi, bé kiểm tra lại nhé! 🧐",
     "error_password_empty": "Bé hãy nhập mật khẩu để vào học nhé! 🔑",
-    "error_general": "Ối! Có lỗi xảy ra rồi. Bé hãy thử lại sau một chút nhé! 🛠️"
+    "error_general": "Ối! Có lỗi xảy ra rồi. Bé hãy thử lại sau một chút nhé! 🛠️",
+    "error_invalid_credentials": "Email hoặc mật khẩu không đúng rồi. Bé thử lại nhé! 🔑"
+  },
+  "register": {
+    "welcome_title": "Tham gia cùng chúng mình nhé!",
+    "welcome_subtitle": "Tạo tài khoản để bắt đầu sắp xếp việc học của bé!",
+    "name_label": "👤 Họ và tên của bé",
+    "email_label": "📧 Email của bé",
+    "password_label": "🔑 Mật khẩu",
+    "confirm_password_label": "🔒 Nhập lại mật khẩu",
+    "register_button": "Tạo tài khoản thôi! 🚀",
+    "back_to_login": "Bé đã có tài khoản rồi?",
+    "login_link": "Đăng nhập tại đây",
+    "error_passwords_match": "Mật khẩu không khớp rồi bé ơi! ❌",
+    "error_name_empty": "Bé ơi, đừng quên nhập tên nhé! 👤",
+    "error_email_empty": "Bé ơi, đừng quên nhập email nhé! 📧",
+    "error_email_invalid": "Email này hình như không đúng rồi, bé kiểm tra lại nhé! 🧐",
+    "error_password_empty": "Bé hãy nhập mật khẩu nhé! 🔑",
+    "success_register": "Tạo tài khoản thành công! Giờ bé có thể đăng nhập rồi. 🌟"
   }
 }

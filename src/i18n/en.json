@@ -10,6 +10,24 @@
     "error_email_empty": "Oops! Please enter your email! 📧",
     "error_email_invalid": "This email doesn't look right. Please check it! 🧐",
     "error_password_empty": "Please enter your password to start learning! 🔑",
-    "error_general": "Oh no! Something went wrong. Please try again in a moment! 🛠️"
+    "error_general": "Oh no! Something went wrong. Please try again in a moment! 🛠️",
+    "error_invalid_credentials": "Invalid email or password. Please try again! 🔑"
+  },
+  "register": {
+    "welcome_title": "Join the Fun!",
+    "welcome_subtitle": "Create your account to start organizing your studies!",
+    "name_label": "👤 Your Full Name",
+    "email_label": "📧 Your Email",
+    "password_label": "🔑 Password",
+    "confirm_password_label": "🔒 Confirm Password",
+    "register_button": "Create Account! 🚀",
+    "back_to_login": "Already have an account?",
+    "login_link": "Login here",
+    "error_passwords_match": "Passwords do not match! ❌",
+    "error_name_empty": "Oops! Please enter your name! 👤",
+    "error_email_empty": "Oops! Please enter your email! 📧",
+    "error_email_invalid": "This email doesn't look right. Please check it! 🧐",
+    "error_password_empty": "Please enter your password! 🔑",
+    "success_register": "Account created! Now you can login. 🌟"
   }
 }
