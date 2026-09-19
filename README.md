@@ -8,6 +8,12 @@ MyTimetable is a mobile application designed to help primary school students (ag
 - **Core Goal:** Empower children to manage their own time through a "Digital Playground" interface.
 - **Platforms:** iOS & Android (React Native).
 
+### 🖼️ Preview
+
+<p align="center">
+  <img src="src/assets/screenshots/login_screen.jpg" alt="Login Screen Preview" width="300" />
+</p>
+
 ---
 
 ## 🚀 Current Progress
