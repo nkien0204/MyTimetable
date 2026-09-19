@@ -1,0 +1,15 @@
+{
+  "login": {
+    "welcome_title": "MyTimetable",
+    "welcome_subtitle": "Welcome back, Little Scholar! 🌟",
+    "email_label": "📧 Your Email",
+    "password_label": "🔑 Your Secret Password",
+    "login_button": "Let's Go! 🚀",
+    "register_text": "New here?",
+    "register_link": "Join the fun! ✨",
+    "error_email_empty": "Oops! Please enter your email! 📧",
+    "error_email_invalid": "This email doesn't look right. Please check it! 🧐",
+    "error_password_empty": "Please enter your password to start learning! 🔑",
+    "error_general": "Oh no! Something went wrong. Please try again in a moment! 🛠️"
+  }
+}

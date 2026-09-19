@@ -1,0 +1,15 @@
+{
+  "login": {
+    "welcome_title": "MyTimetable",
+    "welcome_subtitle": "Chào mừng bé quay trở lại! 🌟",
+    "email_label": "📧 Email của bé",
+    "password_label": "🔑 Mật khẩu bí mật",
+    "login_button": "Bắt đầu thôi! 🚀",
+    "register_text": "Bé chưa có tài khoản?",
+    "register_link": "Tham gia cùng chúng mình nhé! ✨",
+    "error_email_empty": "Bé ơi, đừng quên nhập email nhé! 📧",
+    "error_email_invalid": "Email này hình như không đúng rồi, bé kiểm tra lại nhé! 🧐",
+    "error_password_empty": "Bé hãy nhập mật khẩu để vào học nhé! 🔑",
+    "error_general": "Ối! Có lỗi xảy ra rồi. Bé hãy thử lại sau một chút nhé! 🛠️"
+  }
+}
