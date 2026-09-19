@@ -16,20 +16,26 @@ MyTimetable is a React Native application designed for primary school students (
 
 ## 2. Technical Stack
 
-- **Framework:** React Native (TypeScript)
+- **Frontend Framework:** React Native (TypeScript)
+- **Internationalization:** `i18next` for multi-language support (English, Vietnamese)
+- **Backend Framework:** Node.js + Express (TypeScript)
+- **Database:** SQLite (File-based for simplicity and local development)
+- **Authentication:** JWT (JSON Web Tokens) & bcryptjs for password hashing
 - **Navigation:** React Navigation (Stack & Tab Navigators)
 - **State Management:**
   - React Context API (for Global State: Auth, User Preferences)
   - Local Component State (for View-specific logic)
 - **Data Persistence:**
   - Local: `AsyncStorage` or `react-native-sqlite-storage` (for offline-first experience)
-  - Remote: Cloud Database (TBD - e.g., Firebase or custom REST API)
+  - Remote: Custom REST API (Backend service)
 - **Notifications:** `react-native-push-notification` or `expo-notifications` (for scheduled reminders)
 - **Styling:** `StyleSheet` (Standard RN) or `Styled-components` for theme consistency.
 
 ---
 
 ## 3. Proposed Folder Structure
+
+### Frontend (Mobile App)
 
 To ensure scalability and maintainability, the project will follow a professional modular structure inside a `src/` directory:
 
@@ -56,6 +62,24 @@ src/
 └── utils/              # Pure helper functions (Date formatting, Validation)
 ```
 
+### Backend (Server)
+
+The backend is a separate Node.js service located in the `backend/` directory:
+
+```text
+backend/
+├── src/
+│   ├── config/         # Database connection & environment variables
+│   ├── controllers/    # Business logic (API request handlers)
+│   ├── middleware/      # Security & validation middleware
+│   ├── models/          # Database schemas and SQLite table definitions
+│   ├── routes/          # API endpoint routing
+│   └── index.ts         # Server entry point
+├── .env                # Environment secrets (GIT IGNORED)
+├── .env.sample         # Template for environment variables
+└── package.json         # Backend dependencies and scripts
+```
+
 ---
 
 ## 4. Architecture Design
@@ -77,6 +101,11 @@ src/
 
 - **Scheduled Notifications:** Use background tasks to schedule "Tomorrow's Reminder" and "Next Week's Reminder" based on the timetable data stored locally.
 
+### 4.4. Logging & Monitoring
+
+- **Request Logging:** A custom middleware in the backend logs every incoming request (method, URL, status, response time, and IP) to provide visibility into server traffic.
+- **Business Event Logging:** Detailed logs are implemented in controllers (e.g., AuthController) to track critical events such as successful logins, failed registration attempts, and token revocations.
+
 ---
 
 ## 5. Implementation Roadmap
@@ -90,7 +119,7 @@ src/
 
 ### Phase 2: Account & Subject Management
 
-- [ ] Implement Auth Screens (UI + Mock Logic).
+- [x] Implement Auth Screens (UI + Backend Integration + i18n).
 - [ ] Implement Subject Management (CRUD operations).
 - [ ] Integration with Local Storage.
 

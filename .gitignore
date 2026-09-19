@@ -41,6 +41,8 @@ node_modules/
 npm-debug.log
 .npm-cache/
 yarn-error.log
+.env
+**/database.sqlite
 
 # fastlane
 #

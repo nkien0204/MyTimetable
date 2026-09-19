@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -14,20 +14,16 @@ import { Theme } from '../../theme';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from '../../components/molecules/LanguageSwitcher';
 import { apiClient } from '../../api/apiClient';
-import { AuthContext } from '../../context/AuthContext';
 
-interface LoginScreenProps {
-  onNavigateToRegister: () => void;
-}
-
-const LoginScreen = ({ onNavigateToRegister }: LoginScreenProps) => {
+const RegisterScreen = ({ onNavigateBack }: { onNavigateBack: () => void }) => {
   const { t } = useTranslation();
-  const authContext = useContext(AuthContext);
+  const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
+  // Error states
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [generalError, setGeneralError] = useState('');
 
   const validateEmail = (email: string) => {
@@ -35,32 +31,42 @@ const LoginScreen = ({ onNavigateToRegister }: LoginScreenProps) => {
     return regex.test(email);
   };
 
-  const handleLogin = async () => {
-    if (!authContext) return;
-    setEmailError('');
-    setPasswordError('');
+  const handleRegister = async () => {
+    setErrors({});
     setGeneralError('');
-    let isValid = true;
 
+    let isValid = true;
+    const newErrors: { [key: string]: string } = {};
+
+    if (!fullName) {
+      newErrors.fullName = t('register.error_name_empty');
+      isValid = false;
+    }
     if (!email) {
-      setEmailError(t('login.error_email_empty'));
+      newErrors.email = t('register.error_email_empty');
       isValid = false;
     } else if (!validateEmail(email)) {
-      setEmailError(t('login.error_email_invalid'));
+      newErrors.email = t('register.error_email_invalid');
       isValid = false;
     }
-
     if (!password) {
-      setPasswordError(t('login.error_password_empty'));
+      newErrors.password = t('register.error_password_empty');
+      isValid = false;
+    }
+    if (password !== confirmPassword) {
+      newErrors.confirmPassword = t('register.error_passwords_match');
       isValid = false;
     }
 
-    if (!isValid) return;
+    if (!isValid) {
+      setErrors(newErrors);
+      return;
+    }
 
     try {
-      const response = await apiClient.post('/auth/login', { email, password });
-      await authContext.login(response.token, response.user);
-      Alert.alert('Success', t('login.welcome_subtitle'));
+      await apiClient.post('/auth/register', { email, password, fullName });
+      Alert.alert('Success!', t('register.success_register'));
+      onNavigateBack(); // Go back to login screen
     } catch (error: any) {
       let errorMessage = error.message;
       if (errorMessage === 'Invalid email or password.') {
@@ -79,8 +85,8 @@ const LoginScreen = ({ onNavigateToRegister }: LoginScreenProps) => {
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.header}>
           <Text style={styles.emoji}>📚</Text>
-          <Text style={styles.title}>{t('login.welcome_title')}</Text>
-          <Text style={styles.subtitle}>{t('login.welcome_subtitle')}</Text>
+          <Text style={styles.title}>{t('register.welcome_title')}</Text>
+          <Text style={styles.subtitle}>{t('register.welcome_subtitle')}</Text>
         </View>
 
         <View style={styles.form}>
@@ -91,54 +97,92 @@ const LoginScreen = ({ onNavigateToRegister }: LoginScreenProps) => {
           ) : null}
 
           <View style={styles.inputGroup}>
-            <Text style={styles.label}>{t('login.email_label')}</Text>
+            <Text style={styles.label}>{t('register.name_label')}</Text>
             <TextInput
-              style={[styles.input, emailError ? styles.inputError : null]}
-              placeholder="example@email.com"
-              value={email}
+              style={[styles.input, errors.fullName ? styles.inputError : null]}
+              placeholder="Enter your name"
+              value={fullName}
               onChangeText={text => {
-                setEmail(text);
-                if (emailError) setEmailError('');
+                setFullName(text);
+                setErrors(prev => ({ ...prev, fullName: '' }));
               }}
-              keyboardType="email-address"
-              autoCapitalize="none"
             />
-            {emailError ? (
-              <Text style={styles.errorText}>{emailError}</Text>
+            {errors.fullName ? (
+              <Text style={styles.errorText}>{errors.fullName}</Text>
             ) : null}
           </View>
 
           <View style={styles.inputGroup}>
-            <Text style={styles.label}>{t('login.password_label')}</Text>
+            <Text style={styles.label}>{t('register.email_label')}</Text>
             <TextInput
-              style={[styles.input, passwordError ? styles.inputError : null]}
+              style={[styles.input, errors.email ? styles.inputError : null]}
+              placeholder="example@email.com"
+              value={email}
+              onChangeText={text => {
+                setEmail(text);
+                setErrors(prev => ({ ...prev, email: '' }));
+              }}
+              keyboardType="email-address"
+              autoCapitalize="none"
+            />
+            {errors.email ? (
+              <Text style={styles.errorText}>{errors.email}</Text>
+            ) : null}
+          </View>
+
+          <View style={styles.inputGroup}>
+            <Text style={styles.label}>{t('register.password_label')}</Text>
+            <TextInput
+              style={[styles.input, errors.password ? styles.inputError : null]}
               placeholder="••••••••"
               value={password}
               onChangeText={text => {
                 setPassword(text);
-                if (passwordError) setPasswordError('');
+                setErrors(prev => ({ ...prev, password: '' }));
               }}
               secureTextEntry
             />
-            {passwordError ? (
-              <Text style={styles.errorText}>{passwordError}</Text>
+            {errors.password ? (
+              <Text style={styles.errorText}>{errors.password}</Text>
             ) : null}
           </View>
 
-          <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-            <Text style={styles.loginButtonText}>
-              {t('login.login_button')}
+          <View style={styles.inputGroup}>
+            <Text style={styles.label}>
+              {t('register.confirm_password_label')}
+            </Text>
+            <TextInput
+              style={[
+                styles.input,
+                errors.confirmPassword ? styles.inputError : null,
+              ]}
+              placeholder="••••••••"
+              value={confirmPassword}
+              onChangeText={text => {
+                setConfirmPassword(text);
+                setErrors(prev => ({ ...prev, confirmPassword: '' }));
+              }}
+              secureTextEntry
+            />
+            {errors.confirmPassword ? (
+              <Text style={styles.errorText}>{errors.confirmPassword}</Text>
+            ) : null}
+          </View>
+
+          <TouchableOpacity
+            style={styles.registerButton}
+            onPress={handleRegister}
+          >
+            <Text style={styles.registerButtonText}>
+              {t('register.register_button')}
             </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity
-            style={styles.registerLink}
-            onPress={onNavigateToRegister}
-          >
-            <Text style={styles.registerLinkText}>
-              {t('login.register_text')}{' '}
+          <TouchableOpacity style={styles.backLink} onPress={onNavigateBack}>
+            <Text style={styles.backLinkText}>
+              {t('register.back_to_login')}{' '}
               <Text style={styles.linkHighlight}>
-                {t('login.register_link')}
+                {t('register.login_link')}
               </Text>
             </Text>
           </TouchableOpacity>
@@ -227,7 +271,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: 'bold',
   },
-  loginButton: {
+  registerButton: {
     backgroundColor: Theme.colors.primary,
     padding: Theme.spacing.md,
     borderRadius: 20,
@@ -239,15 +283,15 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     elevation: 3,
   },
-  loginButtonText: {
+  registerButtonText: {
     ...Theme.typography.button,
     color: Theme.colors.textInverse,
   },
-  registerLink: {
+  backLink: {
     marginTop: Theme.spacing.lg,
     alignItems: 'center',
   },
-  registerLinkText: {
+  backLinkText: {
     ...Theme.typography.caption,
     color: Theme.colors.textSecondary,
   },
@@ -257,4 +301,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen;
+export default RegisterScreen;
